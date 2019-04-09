@@ -1,0 +1,36 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+
+/**
+ * File:console.php
+ *
+ * @author Maciej Sławik <maciej.slawik@lizardmedia.pl>
+ * @copyright Copyright (C) 2019 Lizard Media (http://lizardmedia.pl)
+ */
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use LizardMedia\RabbitMQ\Direct\ConsumeCommand;
+use LizardMedia\RabbitMQ\Direct\ProduceCommand;
+use LizardMedia\RabbitMQ\Fanout\PublishCommand as FanoutPublishCommand;
+use LizardMedia\RabbitMQ\Fanout\SubscribeCommand as FanoutSubscribeCommand;
+use LizardMedia\RabbitMQ\Topic\PublishCommand as TopicPublishCommand;
+use LizardMedia\RabbitMQ\Topic\SubscribeCommand as TopicSubscribeCommand;
+use Symfony\Component\Console\Application;
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::create(__DIR__ . '/..');
+$dotenv->load();
+
+$app = new Application('Gildia PHP', '1.0.0');
+
+$app->add(new ConsumeCommand());
+$app->add(new ProduceCommand());
+$app->add(new FanoutPublishCommand());
+$app->add(new FanoutSubscribeCommand());
+$app->add(new TopicPublishCommand());
+$app->add(new TopicSubscribeCommand());
+
+$app->run();
+
